@@ -1,12 +1,14 @@
 import React from 'react'
 import { NavLink,Link } from 'react-router-dom';
-import { GiShoppingBag } from "react-icons/gi";
+
 import { useAuth } from '../../context/auth';
 import toast from 'react-hot-toast';
 import SearchInput from '../Form/SearchInput';
 import useCategory from '../../hooks/useCategory';
 import { useCart } from '../../context/cart';
 import { Badge } from 'antd';
+import { GiShoppingCart } from "react-icons/gi";
+
 
 const Header = () => {
   const [auth,setAuth] = useAuth();
@@ -24,7 +26,7 @@ const Header = () => {
     <>
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
   <div className="container-fluid"> 
-    <Link to="/" className="navbar-brand" ><GiShoppingBag/>  Luxora </Link>
+    <Link to="/" className="navbar-brand" > Luxora </Link>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span className="navbar-toggler-icon" />
     </button>
@@ -112,7 +114,8 @@ const Header = () => {
         <li className="nav-item">
           <Badge count={cart?.length} showZero>
              <NavLink to="/cart" className="nav-link" >
-             Cart 
+             {/* Cart  */}
+             <GiShoppingCart style={{ height: "2em", width: "2em" }} />
                 {/* {cart?.length}  */}
              </NavLink>
           </Badge>
