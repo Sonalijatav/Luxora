@@ -211,7 +211,8 @@ const CartPage = () => {
                   </div>
                   <div className="col-md-4">
                     <p>{item.name}</p>
-                    <p>{item.description.substring(0, 30)}</p>
+                    <p>{item.description ? item.description.substring(0, 30) : "No description available"}</p>
+                    {/* <p>{item.description.substring(0, 30)}</p> */}
                     <p>Price: ₹{item.price}</p>
                   </div>
                   <div className="col-md-4">

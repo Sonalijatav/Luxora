@@ -111,7 +111,7 @@ const HomePage = () => {
       {/* banner image */}
 
       <img
-        src="/images/banner.png"
+        src="/images/banner3.png"
         className="banner-img"
         alt="bannerimage"
         width={"100%" } height={"10%"}
@@ -171,10 +171,12 @@ const HomePage = () => {
             {products?.map((p) => (
               <div className="card m-2" key={p._id}>
                 <img
-                  src={`/api/v1/product/product-photo/${p._id}`}
+                  // src={`/api/v1/product/product-photo/${p._id}`}
+                  src={p.imageUrl || `/api/v1/product/product-photo/${p._id}`} // Use Cloudinary URL here
                   className="card-img-top"
                   alt={p.name}
                 />
+              
                 <div className="card-body">
                   <div className="card-name-price">
                     <h5 className="card-title">{p.name}</h5>
@@ -242,76 +244,3 @@ const HomePage = () => {
 export default HomePage;
 
 
-// import React,{useState, useEffect} from 'react'
-// import Layout from './../components/Layout/Layout'
-// import { useAuth } from '../context/auth'
-// import { useNavigate } from "react-router-dom";
-// import { Checkbox, Radio } from "antd";
-// // import { Prices } from "../components/Prices";
-// // import { useCart } from "../context/cart";
-// import axios from "axios";
-// import toast from "react-hot-toast";
-// import { AiOutlineReload } from "react-icons/ai";
-// // import "../styles/Homepage.css";
-
-// const HomePage = () => {
-//   const [auth, setAuth] = useAuth();
-//   // const navigate = useNavigate();
-//   // const [cart, setCart] = useCart();
-//   const [products, setProducts] = useState([]);
-//   const [categories, setCategories] = useState([]);
-//   const [checked, setChecked] = useState([]);
-//   const [radio, setRadio] = useState([]);
-//   const [total, setTotal] = useState(0);
-//   const [page, setPage] = useState(1);
-//   const [loading, setLoading] = useState(false);
-
-//   //get all cat
-//   const getAllCategory = async () => {
-//     try {
-//       const { data } = await axios.get("/api/v1/category/get-category");
-//       if (data?.success) {
-//         setCategories(data?.category);
-//       }
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
-
-//   useEffect(() => {
-//     getAllCategory();
-//     // getTotal();
-//   }, []);
-
-//   return (
-//     <Layout title ='All products - best offers'>
-//       <div className="row mt-3">
-//         <div className="col md-3">
-//           <h4 className='text-center'>Filter by Category</h4>
-//         </div>
-//         <div className="col md-9">
-//           <h1 className='text-center'>All Products</h1>
-//           <div className="d-flex flex-wrap">
-//             {products?.map((p) => (
-//               <div className="card m-2" style={{width: "18rem"}}>
-//                 <img
-//                   src={ `/api/v1/product/product-photo/${p._id}` }
-//                   className="card-img-top"
-//                   alt={p.name}
-//                 />
-//                 <div className="card-body">
-//                   <h5 className='card-title'>{p.name}</h5>
-//                   <p className='card-text'>{p.description}</p>
-//                 </div>
-//               </div> 
-//             ))}
-//           </div>
-//         </div>
-
-//       </div>
-        
-//     </Layout>
-//   )
-// }
-
-// export default HomePage
