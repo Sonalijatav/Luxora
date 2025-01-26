@@ -8,6 +8,14 @@ const Razorpay = require('razorpay');
 const braintree = require('braintree');
 const dotenv = require("dotenv");
 dotenv.config();
+const cloudinary = require("cloudinary").v2
+
+ cloudinary.config({
+                cloud_name:process.env.CLOUD_NAME,
+                api_key: process.env.API_KEY,
+                api_secret: process.env.API_SECRET,
+            
+        });
 
 //payment gateway
 var gateway = new braintree.BraintreeGateway({
@@ -47,18 +55,43 @@ const createProductController = async(req,res)=> {
           .status(500)             
           .send({ error: "photo is Required and should be less then 1mb" });
     }
-    const products = new productModel({...req.fields,slug:slugify(name)});
-     if (photo) {
-      products.photo.data = fs.readFileSync(photo.path);
-      products.photo.contentType = photo.type;
+    // const products = new productModel({...req.fields,slug:slugify(name)});
+    //  if (photo) {
+    //   products.photo.data = fs.readFileSync(photo.path);
+    //   products.photo.contentType = photo.type;
+    // }
+    // await products.save();
+
+
+    // Upload to Cloudinary
+    let photoUrl = null;
+    if (photo) {
+      const uploadResponse = await cloudinary.uploader.upload(photo.path, {
+        folder: "products",
+        // allowed_formats: ["jpg", "jpeg", "png", "gif", "webp", "bmp", "tiff","pdf"],  
+      });
+      photoUrl = uploadResponse.secure_url;
     }
+
+    const products = new productModel({
+      ...req.fields,
+      slug: slugify(name),
+      photo: photoUrl,
+    });
+
+
     await products.save();
+ 
+
+
+
     res.status(201).send({
       success: true,
       message: "Product Created Successfully",
       products,
      });
-   }catch(error){
+   }
+   catch(error){
     console.log(error)
     res.status(500).send({
         success:false,
@@ -119,11 +152,19 @@ const getSingleProductController = async(req,res) =>{
 //product photo controller
 const productPhotoController =async(req,res) =>{
    try {
-    const product = await productModel.findById(req.params.pid).select("photo");
-    if (product.photo.data) {
-      res.set("Content-type", product.photo.contentType);
-      return res.status(200).send(product.photo.data);
+    // const product = await productModel.findById(req.params.pid).select("photo");
+    // if (product.photo.data) {
+    //   res.set("Content-type", product.photo.contentType);
+    //   return res.status(200).send(product.photo.data);
+    // }
+
+    //cloudinary
+    const product = await productModel.findById(req.params.pid);
+    if (!product || !product.photo) {
+      return res.status(404).send({ error: "Photo not found" });
     }
+    res.redirect(product.photo); // Redirect to Cloudinary URL
+
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -137,12 +178,26 @@ const productPhotoController =async(req,res) =>{
 //delete controller
  const deleteProductController = async (req, res) => {
   try {
-    await productModel.findByIdAndDelete(req.params.pid).select("-photo");
+    // await productModel.findByIdAndDelete(req.params.pid).select("-photo");
+
+    //cloudinary
+    const product = await productModel.findById(req.params.pid);
+  
+    // Delete photo from Cloudinary
+    if (product.photo) {
+      const publicId = product.photo.split('/').pop().split('.')[0];
+      await cloudinary.uploader.destroy(`products/${publicId}`);
+    }
+
+    // Delete product from DB
+    await productModel.findByIdAndDelete(req.params.pid);
+
     res.status(200).send({
       success: true,
       message: "Product Deleted successfully",
     });
-  } catch (error) {
+  }
+   catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
@@ -176,16 +231,43 @@ const productPhotoController =async(req,res) =>{
           .send({ error: "photo is Required and should be less then 1mb" });
     }
 
-    const products = await productModel.findByIdAndUpdate(
+    // const products = await productModel.findByIdAndUpdate(
+    //   req.params.pid,
+    //   { ...req.fields, slug: slugify(name) },
+    //   { new: true }
+    // );
+    // if (photo) {
+    //   products.photo.data = fs.readFileSync(photo.path);
+    //   products.photo.contentType = photo.type;
+    // }
+    // await products.save();
+          
+    //clodinary code
+    const product = await productModel.findById(req.params.pid);
+    if (!product) {
+      return res.status(404).send({ error: "Product not found" });
+    }
+
+    // Upload new photo to Cloudinary if provided
+    let photoUrl = product.photo;
+    if (photo) {
+      const uploadResponse = await cloudinary.uploader.upload(photo.path, {
+        folder: "products",
+      });
+      photoUrl = uploadResponse.secure_url;
+    }
+
+    const updatedProduct = await productModel.findByIdAndUpdate(
       req.params.pid,
-      { ...req.fields, slug: slugify(name) },
+      {
+        ...req.fields,
+        slug: slugify(name),
+        photo: photoUrl,
+      },
       { new: true }
     );
-    if (photo) {
-      products.photo.data = fs.readFileSync(photo.path);
-      products.photo.contentType = photo.type;
-    }
-    await products.save();
+
+
     res.status(201).send({
       success: true,
       message: "Product Updated Successfully",
