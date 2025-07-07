@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useCategory from "../hooks/useCategory";
 import Layout from "../components/Layout/Layout";
+import "../styles/CategoryProductStyles.css";
 const Categories = () => {
   const categories = useCategory();
   return (
@@ -24,3 +25,11 @@ const Categories = () => {
 };
 
 export default Categories;
+
+
+
+
+
+
+
+

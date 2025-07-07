@@ -16,7 +16,8 @@
 
 .cart-page .card {
     padding: 5px !important;
-    height: 150px !important;
+    /* height: 150px !important; */
+    height: 170px !important;
     margin-bottom: 5px !important;
 }
 
@@ -30,3 +31,6 @@
     text-align: center;
     /* margin-top: -140px !important; */
 }
+
+
+

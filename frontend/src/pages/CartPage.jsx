@@ -204,9 +204,9 @@ const CartPage = () => {
                       className="card-img-top"
                       alt={item.name}
                       width="100%"
-                      height="130px"
-                      // width="auto"
-                      // height="100%"
+                      // height="130px"
+                      // width="10%"
+                      height="70%"
                     />
                   </div>
                   <div className="col-md-4">
@@ -299,19 +299,19 @@ const CartPage = () => {
                           flow: "vault",
                         },
                         
-                          googlePay: {
-                             merchantInfo: {
-                               merchantName: 'Sonali',
-                               merchantId: 'cyfssx42szp3v4jx', // Double-check this ID
-                             },
-                             allowedPaymentMethods:['CARD'], 
-                              transactionInfo: {
-                               totalPriceStatus: 'FINAL',
-                                totalPrice: totalPrice().replace('₹', '').trim(), // Pass the price dynamically
-                               currencyCode: 'INR', // Check if INR is supported
-                             },
+                          // googlePay: {
+                          //    merchantInfo: {
+                          //      merchantName: 'Sonali',
+                          //      merchantId: 'cyfssx42szp3v4jx', // Double-check this ID
+                          //    },
+                          //    allowedPaymentMethods:['CARD'], 
+                          //     transactionInfo: {
+                          //      totalPriceStatus: 'FINAL',
+                          //       totalPrice: totalPrice().replace('₹', '').trim(), // Pass the price dynamically
+                          //      currencyCode: 'INR', // Check if INR is supported
+                          //    },
                             
-                           },                        
+                          //  },                        
                       }}
                       onInstance={(instance) => setInstance(instance)}
                     />
