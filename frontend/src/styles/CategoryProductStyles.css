@@ -39,3 +39,46 @@
 .category .card-img-top {
     height: 300px !important;
 }
+
+
+
+
+.category-sticker-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px 20px;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid #eee;
+    height: 100%;
+  }
+  
+  .category-sticker-card:hover {
+    background: linear-gradient(135deg, #f8f9fa, #eaeaea);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+  
+  .sticker-icon {
+    height: 80px;
+  }
+  
+  .sticker-img {
+    height: 60px;
+    width: 60px;
+    object-fit: contain;
+  }
+  
+  .category-name {
+    font-size: 1.2rem;
+    color: #212529;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  
+  @media screen and (max-width: 576px) {
+    .category-name {
+      font-size: 1rem;
+    }
+  }
+  

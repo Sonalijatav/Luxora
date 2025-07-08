@@ -183,15 +183,21 @@ const CartPage = () => {
   return (
     <Layout>
       <div className="cart-page">
-        <div className="row">
-          <div className="col-md-12">
-            <h1 className="text-center bg-light p-2 mb-1">
-              {!auth?.user
-                ? "Hello Guest"
-                : `Hello ${auth?.user?.name}`}
-            </h1>
-          </div>
-        </div>
+      <div className="row">
+  <div className="col-12">
+    <div className="text-center bg-light p-3 rounded shadow-sm mb-3">
+      <h2 className="fw-bold text-dark mb-2">
+        {!auth?.user
+          ? "Hello, Guest 👋"
+          : `Welcome Back, ${auth?.user?.name} – Your Luxora Cart Awaits`}
+      </h2>
+      <p className="lead text-secondary m-0">
+        Timeless choices. Ready to make it yours?
+      </p>
+    </div>
+  </div>
+</div>
+
 
         <div className="container">
           <div className="row">
@@ -317,12 +323,13 @@ const CartPage = () => {
                     />
       
                     <button
-                      className="btn btn-primary"
+                      className="btn btn-primary mb-3"
                       onClick={ handlePaymentBraintree}
                       disabled={loading || !instance || !auth?.user?.address}
                     >
                       {loading ? "Processing ...." : "Make Payment"} 
                     </button>
+
                   </>
                 )}
               </div>
