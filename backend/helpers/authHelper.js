@@ -2,7 +2,8 @@
 //             -> compare krne bcrypt krne k liye
 
 
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 exports.hashPassword = async (password) =>{
     try{
